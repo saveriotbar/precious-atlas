@@ -1,0 +1,504 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Alessio Boschi · The Precious Atlas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;1,6..96,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --lacquer:#0c0a07; --ink:#15110b; --gold:#d4ad55; --gold-soft:#a8853c;
+  --cream:#f5ead3; --ruby:#9b1b2a; --jade:#6f9c82; --lagoon:#0e5c6b;
+  --serif:"Bodoni Moda",Georgia,serif; --sans:"Jost",system-ui,sans-serif;
+  --bar:56px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--lacquer)}
+body{background:var(--lacquer);color:var(--cream);font-family:var(--sans);font-weight:300;overflow-x:hidden}
+img,video{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+.label{font-family:var(--sans);font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold)}
+.serif{font-family:var(--serif)}
+.gold-rule{height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);border:0}
+
+/* ---------- Ingresso: lo scrigno ---------- */
+#intro{position:fixed;inset:0;z-index:100;display:grid;place-items:center;background:#000;overflow:hidden}
+#intro img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.08)}
+#intro .veil{position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.92) 0%,rgba(0,0,0,.6) 28%,transparent 55%)}
+#intro .box{position:absolute;left:16px;right:16px;bottom:7vh;text-align:center}
+#intro h1{font-family:var(--serif);font-weight:400;font-size:clamp(28px,4.6vw,64px);letter-spacing:.18em;text-transform:uppercase;margin:.4em 0 .2em}
+#intro p{font-family:var(--serif);font-style:italic;font-size:clamp(16px,1.6vw,22px);color:var(--cream);opacity:.85}
+#open{margin-top:28px;background:none;border:1px solid var(--gold);color:var(--gold);font:500 12px/1 var(--sans);letter-spacing:.32em;text-transform:uppercase;padding:16px 28px;cursor:pointer;transition:background .4s,color .4s}
+#open:hover{background:var(--gold);color:#000}
+#open small{display:block;margin-top:8px;font-size:9px;letter-spacing:.2em;opacity:.7}
+
+/* ---------- Header ---------- */
+header{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:22px 32px;mix-blend-mode:normal;background:linear-gradient(180deg,rgba(12,10,7,.75),transparent)}
+.wordmark{font-family:var(--serif);font-size:18px;letter-spacing:.34em;text-transform:uppercase}
+.wordmark span{color:var(--gold)}
+nav{display:flex;gap:28px}
+nav a{font-size:11px;letter-spacing:.28em;text-transform:uppercase;opacity:.8;transition:opacity .3s,color .3s}
+nav a:hover{opacity:1;color:var(--gold)}
+.burger{display:none;width:28px;height:12px;border-top:1px solid var(--cream);border-bottom:1px solid var(--cream)}
+
+/* ---------- L'atlante ---------- */
+#atlas{position:relative;height:100vh;height:100svh;overflow:hidden;background:#000}
+.map{position:absolute;left:50%;top:50%;width:max(100vw,177.78vh);height:max(56.25vw,100vh);transform:translate(-50%,-50%)}
+.map img{width:100%;height:100%;object-fit:cover}
+.pin{position:absolute;transform:translate(-50%,-50%);cursor:pointer}
+.pin i{display:block;width:16px;height:16px;border-radius:50%;border:1px solid var(--gold);background:rgba(212,173,85,.25);box-shadow:0 0 0 0 rgba(212,173,85,.6);animation:pulse 2.6s infinite}
+.pin b{position:absolute;left:22px;top:50%;transform:translateY(-50%);white-space:nowrap;font:500 10px/1 var(--sans);letter-spacing:.28em;text-transform:uppercase;color:var(--cream);text-shadow:0 1px 6px #000}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(212,173,85,.6)}70%{box-shadow:0 0 0 16px rgba(212,173,85,0)}100%{box-shadow:0 0 0 0 rgba(212,173,85,0)}}
+.card{position:absolute;bottom:calc(100% + 18px);left:50%;transform:translate(-50%,8px);width:220px;background:rgba(12,10,7,.92);border:1px solid var(--gold-soft);padding:10px;opacity:0;pointer-events:none;transition:opacity .35s,transform .35s;z-index:5}
+.card img{aspect-ratio:4/3;object-fit:cover;width:100%;margin-bottom:10px}
+.card .label{font-size:9px}
+.card h4{font-family:var(--serif);font-weight:400;font-size:18px;margin-top:4px}
+.pin:hover .card,.pin.open .card{opacity:1;transform:translate(-50%,0)}
+.atlas-title{position:absolute;left:32px;bottom:40px;z-index:3;max-width:520px;pointer-events:none}
+.atlas-title h2{font-family:var(--serif);font-weight:400;font-size:clamp(36px,5.5vw,84px);line-height:.95}
+.atlas-title h2 em{color:var(--gold)}
+.atlas-title p{margin-top:16px;font-size:15px;line-height:1.6;opacity:.85;max-width:380px}
+#atlas .shade{position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.75),transparent 45%);pointer-events:none}
+.hint{position:absolute;right:32px;bottom:40px;z-index:3}
+
+/* ---------- Barra-mappa dei capitoli ---------- */
+#chapters{position:fixed;left:0;right:0;bottom:0;z-index:40;height:var(--bar);display:flex;background:rgba(12,10,7,.88);backdrop-filter:blur(8px);border-top:1px solid rgba(212,173,85,.35);transform:translateY(100%);transition:transform .5s}
+#chapters.on{transform:none}
+#chapters a{flex:1;position:relative;display:flex;align-items:center;justify-content:center;font-size:10px;letter-spacing:.28em;text-transform:uppercase;opacity:.6;transition:opacity .3s}
+#chapters a.active{opacity:1;color:var(--gold)}
+#chapters a span.fill{position:absolute;left:0;top:-1px;height:2px;width:0;background:var(--gold)}
+
+/* ---------- Capitolo ---------- */
+.chapter-open{position:relative;height:100vh;height:100svh;overflow:hidden}
+.chapter-open img{position:absolute;inset:-6% 0;width:100%;height:112%;object-fit:cover}
+.chapter-open .shade{position:absolute;inset:0;background:linear-gradient(0deg,rgba(12,10,7,.9),rgba(12,10,7,.1) 55%)}
+.chapter-open .txt{position:absolute;left:32px;right:32px;bottom:calc(var(--bar) + 48px)}
+.chapter-open h2{font-family:var(--serif);font-weight:400;font-size:clamp(56px,13vw,220px);line-height:.85;letter-spacing:-.01em}
+.chapter-open p{font-family:var(--serif);font-style:italic;font-size:clamp(17px,1.8vw,26px);max-width:620px;margin-top:18px;color:var(--cream)}
+
+.manifesto{padding:16vh 32px;display:grid;grid-template-columns:1fr 2fr;gap:48px;max-width:1300px;margin:0 auto}
+.manifesto p{font-family:var(--serif);font-size:clamp(22px,2.6vw,40px);line-height:1.3}
+.manifesto p em{color:var(--gold)}
+
+.place{display:grid;grid-template-columns:1.1fr 1fr;gap:6vw;align-items:center;padding:8vh 32px;max-width:1400px;margin:0 auto}
+.place.rev{grid-template-columns:1fr 1.1fr}
+.place.rev figure{order:2}
+.place figure{overflow:hidden}
+.place figure img{width:100%;transform:scale(1.15)}
+.place h3{font-family:var(--serif);font-weight:400;font-size:clamp(34px,4vw,64px);line-height:1;margin:14px 0 24px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:24px}
+.cols h5{margin-bottom:10px}
+.cols p{font-size:14px;line-height:1.7;opacity:.85}
+.cta{display:inline-block;margin-top:32px;border-bottom:1px solid var(--gold);padding-bottom:6px;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold)}
+
+/* scena: il luogo diventa il gioiello */
+#metamorphosis{position:relative;height:400vh}
+#metamorphosis .stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:#000}
+#metamorphosis canvas,#metamorphosis .poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#metamorphosis .cap{position:absolute;left:32px;bottom:calc(var(--bar) + 48px);right:32px}
+#metamorphosis .cap h3{font-family:var(--serif);font-weight:400;font-size:clamp(30px,4.5vw,72px);line-height:1}
+#metamorphosis .cap .b{opacity:0}
+#metamorphosis .shade{position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.7),transparent 45%)}
+
+.index{padding:14vh 32px;max-width:1400px;margin:0 auto}
+.index ul{list-style:none;columns:3;column-gap:48px;margin-top:32px}
+.index li{font-family:var(--serif);font-size:clamp(20px,1.8vw,28px);padding:10px 0;border-bottom:1px solid rgba(212,173,85,.18);break-inside:avoid;transition:color .3s,padding .3s}
+.index li:hover{color:var(--gold);padding-left:10px}
+
+/* altri mondi */
+.world{position:relative;height:100vh;height:100svh;overflow:hidden}
+.world img{position:absolute;inset:-8% 0;width:100%;height:116%;object-fit:cover}
+.world .shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(12,10,7,.85),rgba(12,10,7,0) 60%)}
+.world .txt{position:absolute;left:32px;top:50%;transform:translateY(-50%);max-width:480px}
+.world h2{font-family:var(--serif);font-weight:400;font-size:clamp(48px,7vw,120px);line-height:.9;margin:12px 0 20px}
+.world p{font-size:15px;line-height:1.7;opacity:.9}
+
+/* masterpieces */
+#masterpieces{position:relative;min-height:100vh;display:grid;place-items:center;overflow:hidden;padding:12vh 32px}
+#masterpieces>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55}
+#masterpieces .in{position:relative;text-align:center;max-width:1100px}
+#masterpieces h2{font-family:var(--serif);font-weight:400;font-size:clamp(44px,7vw,110px);margin:12px 0 36px}
+.mp{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 28px}
+.mp span{font-family:var(--serif);font-style:italic;font-size:clamp(18px,2vw,30px);opacity:.75;transition:opacity .3s,color .3s;cursor:default}
+.mp span:hover{opacity:1;color:var(--gold)}
+
+/* atelier */
+#atelier{display:grid;grid-template-columns:1fr 1fr;min-height:100vh}
+#atelier figure img{width:100%;height:100%;object-fit:cover}
+#atelier .in{padding:14vh 6vw;align-self:center}
+#atelier h2{font-family:var(--serif);font-weight:400;font-size:clamp(40px,5vw,80px);line-height:1;margin:12px 0 24px}
+#atelier>div>p{font-size:15px;line-height:1.75;opacity:.88;max-width:520px}
+.awards{list-style:none;margin-top:36px}
+.awards li{display:grid;grid-template-columns:64px 1fr;gap:16px;padding:12px 0;border-top:1px solid rgba(212,173,85,.2);font-size:13px;line-height:1.5}
+.awards li b{font-family:var(--serif);font-weight:400;color:var(--gold);font-size:18px}
+
+/* private viewing */
+#viewing{padding:20vh 32px calc(var(--bar) + 12vh);text-align:center;background:radial-gradient(ellipse at center,#1d160c,var(--lacquer) 70%)}
+#viewing h2{font-family:var(--serif);font-weight:400;font-size:clamp(44px,7vw,110px);line-height:.95;margin:16px 0 24px}
+#viewing p{max-width:520px;margin:0 auto;font-size:15px;line-height:1.7;opacity:.85}
+.btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:40px}
+.btn{border:1px solid var(--gold);color:var(--gold);padding:16px 28px;font-size:11px;letter-spacing:.3em;text-transform:uppercase;transition:background .3s,color .3s}
+.btn:hover,.btn.full{background:var(--gold);color:#000}
+.mock-note{position:fixed;top:72px;right:16px;z-index:60;font-size:9px;letter-spacing:.2em;text-transform:uppercase;background:var(--ruby);color:#fff;padding:6px 10px}
+
+.reveal{opacity:0;transform:translateY(40px)}
+
+/* ---------- Telefono ---------- */
+@media (max-width:820px){
+  header{padding:16px}
+  nav{display:none}.burger{display:block}
+  .wordmark{font-size:14px;letter-spacing:.26em}
+  .map{transform:translate(-62%,-50%)}
+  .pin b{display:none}
+  .pin.major b{display:block;font-size:9px}
+  .atlas-title{left:16px;right:16px;bottom:28px}
+  .hint{display:none}
+  .manifesto,.place,.place.rev{grid-template-columns:1fr;padding-left:16px;padding-right:16px}
+  .place.rev figure{order:0}
+  .cols{grid-template-columns:1fr}
+  .chapter-open .txt,#metamorphosis .cap,.world .txt{left:16px;right:16px}
+  .world .shade{background:linear-gradient(0deg,rgba(12,10,7,.9),rgba(12,10,7,0) 70%)}
+  .world .txt{top:auto;bottom:calc(var(--bar) + 32px);transform:none}
+  .index{padding-left:16px;padding-right:16px}
+  .index ul{columns:1}
+  #atelier{grid-template-columns:1fr}
+  #atelier figure{height:60vh}
+  #chapters a{font-size:8px;letter-spacing:.14em}
+  .card{width:180px}
+}
+@media (prefers-reduced-motion:reduce){
+  .pin i{animation:none}
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<div class="mock-note">Mockup · immagini generate</div>
+
+<!-- Ingresso -->
+<section id="intro" aria-label="Enter">
+  <img src="img/01-scrigno.jpg" alt="">
+  <div class="veil"></div>
+  <div class="box">
+    <div class="label">Italy · Thailand</div>
+    <h1>Alessio Boschi</h1>
+    <p>Live a Precious Journey</p>
+    <button id="open">Open the box<small>every jewel is a place</small></button>
+  </div>
+</section>
+
+<header>
+  <a class="wordmark" href="#atlas">Alessio <span>✦</span> Boschi</a>
+  <nav>
+    <a href="#atlas">The Atlas</a>
+    <a href="#historica">Collections</a>
+    <a href="#masterpieces">Masterpieces</a>
+    <a href="#atelier">Atelier</a>
+    <a href="#viewing">Private viewing</a>
+  </nav>
+  <span class="burger" aria-hidden="true"></span>
+</header>
+
+<!-- L'atlante -->
+<section id="atlas">
+  <div class="map">
+    <img src="img/00-atlante.jpg" alt="The Precious Atlas: a gold and lapis map from Italy to Thailand">
+    <a class="pin major" href="#historica" style="left:46.9%;top:25.9%"><i></i><b>Venice</b>
+      <span class="card"><img src="img/03-doge-indossato.jpg" alt=""><span class="label">Historica</span><h4>Doge's Palace</h4></span></a>
+    <a class="pin" href="#metamorphosis" style="left:47.9%;top:29.5%"><i></i><b>Rome</b>
+      <span class="card"><img src="img/05-colosseo-anello.jpg" alt=""><span class="label">Historica</span><h4>Nowadays Colosseum</h4></span></a>
+    <a class="pin" href="#historica" style="left:58.4%;top:33.1%"><i></i><b>Persia</b>
+      <span class="card"><img src="img/10-tesoro.jpg" alt=""><span class="label">Historica</span><h4>Golestan Palace</h4></span></a>
+    <a class="pin" href="#historica" style="left:64.2%;top:39%"><i></i><b>Jaipur</b>
+      <span class="card"><img src="img/10-tesoro.jpg" alt=""><span class="label">Historica</span><h4>Maharajah Frescoes</h4></span></a>
+    <a class="pin major" href="#atelier" style="left:70.2%;top:45.6%"><i></i><b>Bangkok</b>
+      <span class="card"><img src="img/11-banco.jpg" alt=""><span class="label">The Atelier</span><h4>Where every jewel is born</h4></span></a>
+    <a class="pin" href="#temple" style="left:73.8%;top:28%"><i></i><b>Beijing</b>
+      <span class="card"><img src="img/06-tempio.jpg" alt=""><span class="label">Historica</span><h4>Temple of Heaven</h4></span></a>
+    <a class="pin" href="#masterpieces" style="left:77%;top:37.4%"><i></i><b>Hong Kong</b>
+      <span class="card"><img src="img/10-tesoro.jpg" alt=""><span class="label">Masterpieces</span><h4>The treasure room</h4></span></a>
+    <a class="pin major" href="#thalassa" style="left:81%;top:55%"><i></i><b>Pacific</b>
+      <span class="card"><img src="img/07-thalassa.jpg" alt=""><span class="label">Thalassa</span><h4>Seahorses</h4></span></a>
+  </div>
+  <div class="shade"></div>
+  <div class="atlas-title">
+    <div class="label">The Precious Atlas</div>
+    <h2>Every jewel<br>is a <em>place</em>.</h2>
+    <p>From the palaces of Venice to the reefs of the Pacific: choose a stop on the journey.</p>
+  </div>
+  <div class="hint label">Scroll to travel ↓</div>
+</section>
+
+<!-- Barra-mappa -->
+<nav id="chapters" aria-label="Chapters">
+  <a href="#historica" data-ch="historica"><span class="fill"></span>Historica</a>
+  <a href="#thalassa" data-ch="thalassa"><span class="fill"></span>Thalassa</a>
+  <a href="#naturalia" data-ch="naturalia"><span class="fill"></span>Naturalia</a>
+  <a href="#jade" data-ch="jade"><span class="fill"></span>Jade</a>
+  <a href="#surprise" data-ch="surprise"><span class="fill"></span>Surprise Me</a>
+</nav>
+
+<!-- ===== Capitolo I · Historica ===== -->
+<div id="historica" data-chapter="historica">
+  <section class="chapter-open">
+    <img class="par" src="img/02-venezia.jpg" alt="Venice at golden hour">
+    <div class="shade"></div>
+    <div class="txt">
+      <div class="label">Chapter I · Venice, Rome, Persia, Beijing</div>
+      <h2>Historica</h2>
+      <p>A luxurious past, with stories and personalities from European history, the fascinating Orient and glorious Empires.</p>
+    </div>
+  </section>
+
+  <section class="manifesto">
+    <div class="label reveal">[ The collection ]</div>
+    <p class="reveal">Many of the jewels are crafted with details taken from the finest <em>architectural motifs</em>: a palace becomes a necklace, a fountain becomes a ring, a temple roof becomes a row of sapphires.</p>
+  </section>
+
+  <section class="place">
+    <figure><img class="zoom" src="img/03-doge-indossato.jpg" alt="Doge's Palace set worn"></figure>
+    <div class="reveal">
+      <div class="label">Venice · Doge's Palace</div>
+      <h3>The Doge's Palace Set</h3>
+      <div class="cols">
+        <div><h5 class="label">Story</h5><p>The gothic lace of the Doge's Palace façade, its arches and quatrefoils, turned into a cascade of drops falling from a row of South Sea pearls.</p></div>
+        <div><h5 class="label">Crafting</h5><p>18K gold, South Sea pearls, emerald drops and yellow diamonds. Set by hand in our Bangkok atelier.</p></div>
+      </div>
+      <a class="cta" href="#viewing">Request a private viewing</a>
+    </div>
+  </section>
+
+  <!-- Il luogo diventa il gioiello -->
+  <section id="metamorphosis">
+    <div class="stage">
+      <img class="poster" src="img/12-colosseo-aereo.jpg" alt="">
+      <canvas id="mseq" width="1280" height="720"></canvas>
+      <div class="shade"></div>
+      <div class="cap">
+        <div class="label">Rome · the place becomes the jewel</div>
+        <h3 class="a">Two thousand years of stone…</h3>
+        <h3 class="b">…around one finger.</h3>
+      </div>
+    </div>
+  </section>
+
+  <section class="place rev">
+    <figure><img class="zoom" src="img/04-navona.jpg" alt="Four Rivers ring on a Roman fountain"></figure>
+    <div class="reveal">
+      <div class="label">Rome · Piazza Navona</div>
+      <h3>Four Rivers</h3>
+      <div class="cols">
+        <div><h5 class="label">Story</h5><p>Bernini's river gods leave the fountain and hold up a stone the colour of its water.</p></div>
+        <div><h5 class="label">Crafting</h5><p>Sculpted 18K gold, a large green centre stone, blue gems paved along the shank.</p></div>
+      </div>
+      <a class="cta" href="#viewing">Request a private viewing</a>
+    </div>
+  </section>
+
+  <section class="place" id="temple">
+    <figure><img class="zoom" src="img/06-tempio.jpg" alt="Temple of Heaven jewels on red lacquer"></figure>
+    <div class="reveal">
+      <div class="label">Beijing · Temple of Heaven</div>
+      <h3>Temple of Heaven</h3>
+      <div class="cols">
+        <div><h5 class="label">Story</h5><p>The three blue roofs of the temple, where emperors prayed for harvest, become rows of calibrated sapphires.</p></div>
+        <div><h5 class="label">Crafting</h5><p>Calibrated blue sapphires, a ruby bead tassel, white gold and diamonds.</p></div>
+      </div>
+      <a class="cta" href="#viewing">Request a private viewing</a>
+    </div>
+  </section>
+
+  <section class="index">
+    <div class="label">[ All the places of Historica ]</div>
+    <ul>
+      <li>Golestan Palace</li><li>Seven Pavilions</li><li>Temple of Heaven</li><li>Maharajah Frescoes</li>
+      <li>Peacock's Dream</li><li>Bella Napoli</li><li>Romeo &amp; Juliet</li><li>Pisa Tower</li>
+      <li>Nowadays Colosseum</li><li>Gondola</li><li>Doge's Palace</li><li>Palazzo</li>
+      <li>Four Rivers</li><li>Icarus</li><li>Qajar Pride</li><li>Dandy</li>
+      <li>Janus &amp; Mouth of Truth</li><li>Bridge of Sighs</li>
+    </ul>
+  </section>
+</div>
+
+<!-- ===== Altri capitoli (anteprima) ===== -->
+<section class="world" id="thalassa" data-chapter="thalassa">
+  <img class="par" src="img/07-thalassa.jpg" alt="Seahorse earrings in a coral reef">
+  <div class="shade"></div>
+  <div class="txt reveal">
+    <div class="label">Chapter II · The Pacific</div>
+    <h2>Thalassa</h2>
+    <p>From the Greek word for the sea. Sea creatures among the multicoloured shades of the coral reef: thanks to their hidden movements, the jewels seem carried by the tides.</p>
+    <a class="cta" href="#viewing">Enter the reef</a>
+  </div>
+</section>
+
+<section class="world" id="naturalia" data-chapter="naturalia">
+  <img class="par" src="img/08-naturalia.jpg" alt="Rose de France jewels among roses">
+  <div class="shade"></div>
+  <div class="txt reveal">
+    <div class="label">Chapter III · Volcanoes, glaciers, gardens</div>
+    <h2>Naturalia</h2>
+    <p>Flora and fauna, erupting volcanoes, exploding stars, blue glaciers, stunning sunsets and mystical dawns.</p>
+    <a class="cta" href="#viewing">Enter the garden</a>
+  </div>
+</section>
+
+<section class="world" id="jade" data-chapter="jade">
+  <img class="par" src="img/09-jade.jpg" alt="Imperial jade garden">
+  <div class="shade"></div>
+  <div class="txt reveal">
+    <div class="label">Chapter IV · The Orient</div>
+    <h2>Jade</h2>
+    <p>Imperial Purple Peony, Orchid, Rabbit, Re Sole: the stone of emperors, carved into flowers.</p>
+    <a class="cta" href="#viewing">Enter the garden</a>
+  </div>
+</section>
+
+<section class="world" id="surprise" data-chapter="surprise">
+  <img class="par" src="img/01-scrigno.jpg" alt="Jewelled gift box opening">
+  <div class="shade"></div>
+  <div class="txt reveal">
+    <div class="label">Chapter V · A gift inside the gift</div>
+    <h2>Surprise Me</h2>
+    <p>Little bejewelled gift boxes, worn as rings, earrings or charms. Open one: a hidden gift is waiting.</p>
+    <a class="cta" href="#viewing">Open a box</a>
+  </div>
+</section>
+
+<!-- Masterpieces -->
+<section id="masterpieces">
+  <img src="img/10-tesoro.jpg" alt="">
+  <div class="in reveal">
+    <div class="label">The treasure room</div>
+    <h2>Masterpieces</h2>
+    <div class="mp">
+      <span>Medusa</span><span>Homage to Piazza Navona</span><span>The Poem</span><span>Daphne</span>
+      <span>Lion &amp; Sun Brooch</span><span>Shahbanou</span><span>Rose de France</span><span>Tree of Life</span>
+      <span>Angelo del Mattino</span><span>Imperial Acanthus</span><span>Dove</span><span>The Cedar</span>
+      <span>Survivor</span><span>Homage to the Renaissance</span>
+    </div>
+  </div>
+</section>
+
+<!-- Atelier -->
+<section id="atelier">
+  <figure><img src="img/11-banco.jpg" alt="Goldsmith hands at the bench in Bangkok"></figure>
+  <div class="in reveal">
+    <div class="label">Italy · Thailand</div>
+    <h2>The Atelier</h2>
+    <p>Organic and geometric, colourful and intricate, wearable and full of surprises. Designed by an Italian, made by hand in Bangkok.</p>
+    <ul class="awards">
+      <li><b>2019</b>JNA Jewellery Design Competition, Tahitian Pearl winner · Hong Kong</li>
+      <li><b>2017</b>IJDE Aesthetics Award · Hong Kong</li>
+      <li><b>2015</b>Bazaar Jewelry Design Award, Homage to the Renaissance · Beijing</li>
+      <li><b>2010</b>Veranda's Art of Design, Best Jewelry Designer · New York</li>
+      <li><b>2003</b>Guinness World Record: the Millennium Sapphire, the world's largest engraved sapphire</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Private viewing -->
+<section id="viewing">
+  <div class="label">By appointment</div>
+  <h2>A private<br>viewing</h2>
+  <p>Every piece is one of a kind or made in very few variations. Tell us which place you want to visit: we bring it to you.</p>
+  <div class="btns">
+    <a class="btn full" href="#viewing">WhatsApp</a>
+    <a class="btn" href="#viewing">Email</a>
+  </div>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+gsap.registerPlugin(ScrollTrigger);
+
+let lenis = null;
+if (!reduce && window.Lenis) {
+  lenis = new Lenis({ lerp: 0.08 });
+  lenis.on('scroll', ScrollTrigger.update);
+  gsap.ticker.add(t => lenis.raf(t * 1000));
+  gsap.ticker.lagSmoothing(0);
+  document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) { e.preventDefault(); lenis.scrollTo(t, { duration: 1.6 }); }
+  }));
+}
+
+// Ingresso: lo scrigno si apre
+const intro = document.getElementById('intro');
+document.body.style.overflow = 'hidden';
+lenis && lenis.stop();
+document.getElementById('open').addEventListener('click', () => {
+  const tl = gsap.timeline({ onComplete: () => { intro.remove(); document.body.style.overflow = ''; lenis && lenis.start(); } });
+  tl.to('#intro .box', { opacity: 0, y: -20, duration: .5 })
+    .to('#intro img', { scale: 2.4, duration: 1.6, ease: 'power3.in' }, '<')
+    .to('#intro', { opacity: 0, duration: .6 }, '-=.4')
+    .from('.map', { scale: 1.25, duration: 2.2, ease: 'power2.out' }, '-=.5')
+    .from('.atlas-title > *', { opacity: 0, y: 30, stagger: .15, duration: .9 }, '-=1.6')
+    .from('.pin', { opacity: 0, scale: 0, stagger: .08, duration: .5 }, '-=1.2');
+});
+
+// Pin: su telefono si aprono al tocco
+document.querySelectorAll('.pin').forEach(p => p.addEventListener('click', e => {
+  if (matchMedia('(hover: none)').matches && !p.classList.contains('open')) {
+    e.preventDefault(); e.stopImmediatePropagation();
+    document.querySelectorAll('.pin.open').forEach(o => o.classList.remove('open'));
+    p.classList.add('open');
+  }
+}, true));
+
+if (!reduce) {
+  // L'atlante si allontana mentre parti
+  gsap.to('.map', { scale: 1.15, y: '8%', ease: 'none', scrollTrigger: { trigger: '#atlas', start: 'top top', end: 'bottom top', scrub: true } });
+
+  // Parallasse sulle aperture
+  gsap.utils.toArray('.par').forEach(img => gsap.fromTo(img, { yPercent: -5 }, { yPercent: 5, ease: 'none', scrollTrigger: { trigger: img.parentElement, start: 'top bottom', end: 'bottom top', scrub: true } }));
+  gsap.utils.toArray('.zoom').forEach(img => gsap.to(img, { scale: 1, ease: 'none', scrollTrigger: { trigger: img, start: 'top bottom', end: 'center center', scrub: true } }));
+  gsap.utils.toArray('.reveal').forEach(el => gsap.to(el, { opacity: 1, y: 0, duration: 1.1, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 85%' } }));
+  gsap.from('.chapter-open h2', { yPercent: 40, opacity: 0, duration: 1.4, ease: 'power3.out', scrollTrigger: { trigger: '.chapter-open', start: 'top 60%' } });
+
+  // Il Colosseo diventa l'anello: i fotogrammi avanzano con lo scroll (su canvas, non <video>: non scatta)
+  const N = 97, cv = document.getElementById('mseq'), cx = cv.getContext('2d');
+  const frames = Array.from({ length: N }, (_, i) => { const im = new Image(); im.src = `img/seq/f${String(i + 1).padStart(3, '0')}.jpg`; return im; });
+  const draw = i => {
+    const im = frames[i]; if (!im.complete || !im.naturalWidth) return;
+    const r = Math.max(cv.width / im.naturalWidth, cv.height / im.naturalHeight);
+    const w = im.naturalWidth * r, h = im.naturalHeight * r;
+    cx.drawImage(im, (cv.width - w) / 2, (cv.height - h) / 2, w, h);
+  };
+  const fit = () => { cv.width = innerWidth * Math.min(devicePixelRatio, 2); cv.height = innerHeight * Math.min(devicePixelRatio, 2); };
+  fit(); addEventListener('resize', fit);
+  frames[0].onload = () => draw(0);
+  ScrollTrigger.create({
+    trigger: '#metamorphosis', start: 'top top', end: 'bottom bottom', scrub: true,
+    onUpdate: s => {
+      draw(Math.min(N - 1, Math.round(s.progress * (N - 1))));
+      gsap.set('#metamorphosis .a', { opacity: 1 - Math.min(1, s.progress * 2.5) });
+      gsap.set('#metamorphosis .b', { opacity: Math.max(0, (s.progress - .7) * 3.3) });
+    }
+  });
+} else {
+  document.querySelector('#metamorphosis .b').style.opacity = 1;
+}
+
+// Barra-mappa: compare dopo l'atlante, segna il capitolo e il suo avanzamento
+const bar = document.getElementById('chapters');
+ScrollTrigger.create({ trigger: '#historica', start: 'top 80%', endTrigger: '#surprise', end: 'bottom 50%', onToggle: s => bar.classList.toggle('on', s.isActive) });
+document.querySelectorAll('[data-chapter]').forEach(sec => {
+  const link = bar.querySelector(`[data-ch="${sec.dataset.chapter}"]`);
+  ScrollTrigger.create({
+    trigger: sec, start: 'top 50%', end: 'bottom 50%',
+    onToggle: s => link.classList.toggle('active', s.isActive),
+    onUpdate: s => link.querySelector('.fill').style.width = (s.progress * 100) + '%'
+  });
+});
+</script>
+</body>
+</html>
